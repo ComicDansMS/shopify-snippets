@@ -1,0 +1,129 @@
+{% comment %}
+  Renders a banner item.
+
+  Accepts:
+  - section_id: {String} The ID of the section rendering the banner-item
+  - image: {Object} The image object
+  - image_mobile: {Object} A second image object to be displayed on mobile (or taller) screens (optional)
+  - loop_index: {Int} A forloop index if banner-item is rendered within a loop (optional)
+  - heading: {String} Banner heading
+  - subheading: {String} Banner subheading
+  - button_label: {String} Button label
+  - link: {String} Button link
+  - text_color: {String} Color of the text
+  - lazy_load: {Boolean} Option to lazy load image. Images will be always be lazy loaded if image_mobile contains an image. Default: true (optional)
+  - box_align: {String} Content box alignment on banner
+  - text_align_mobile: {String} Text alignment on mobile
+  - text_align_desktop: {String} Text alignment on desktop
+  - text_color: {String} Text Colour (light or dark option only)
+  - desktop_height: {String} Banner height on desktop devices
+  - mobile_height: {String} Banner height on mobile devices
+  - overlay_opacity: {Int} Opacity of overlay
+  - overlay_colour: {String} Colour of overlay
+  - overlay_mobile_only: {Boolean} Option to display overlay on mobile devices only (Optional)  
+
+  Usage:
+  {% 
+    render 'banner-item' 
+    section_id: section.id,
+    loop_index: forloop.index,
+    image: block.settings.image,
+    image_mobile: block.settings.image_mobile,
+    heading: block.settings.heading,
+    subheading: block.settings.subheading,
+    button_label: block.settings.button_label,
+    link: block.settings.link,
+    box_align: block.settings.box_align,
+    text_align_mobile: block.settings.text_alignment_mobile,
+    text_align_desktop: block.settings.text_alignment_desktop,
+    text_color: block.settings.text_color,
+    desktop_height: section.settings.desktop_height,
+    mobile_height: section.settings.mobile_height,
+    overlay_opacity: block.settings.image_overlay_opacity,
+    overlay_colour: block.settings.image_overlay_color,
+    overlay_mobile_only: block.settings.overlay_mobile_only,
+  %}
+{% endcomment %}
+
+{%- liquid 
+  if lazy_load == true or image_mobile != empty
+    assign lazy_load = true
+  else
+    assign lazy_load = false
+  endif
+-%}
+
+{%- style -%}
+  {% unless overlay_opacity == 0 %}
+    {% if overlay_mobile_only %}
+      @media screen and (max-width: 749px) {
+    {% endif %}
+        #Banner-item-{{ section_id }}{{ loop_index }} .banner__media::after {
+          opacity: {{ overlay_opacity | divided_by: 100.0 }};
+          background: {{ overlay_colour }};
+        }
+    {% if overlay_mobile_only %}
+      }
+    {% endif %}
+  {% endunless %}
+
+  {% if image_mobile != blank %}
+    #Banner-item-{{ section_id }}{{ loop_index }} .image-load-mobile,
+    #Banner-item-{{ section_id }}{{ loop_index }} .image-load-desktop {
+      display: none;
+    }
+
+    @media screen and (max-width: 749px) {
+      #Banner-item-{{ section_id }}{{ loop_index }} .image-load-mobile {
+        display: block;
+      }
+    }
+
+    @media screen and (min-width: 750px) {
+      #Banner-item-{{ section_id }}{{ loop_index }} .image-load-desktop {
+        display: block;
+      }
+    }
+  {% endif %}
+{%- endstyle -%}
+
+<div id="Banner-item-{{ section_id }}{{ loop_index }}" class="banner-item banner-item--desktop-{{ desktop_height }} banner-item--mobile-{{ mobile_height }}">
+  <div class="banner__media media{% if image == blank %} placeholder{% endif %}">
+    {%- if image -%}
+      {%- assign height = image.width | divided_by: image.aspect_ratio | round -%}
+      {{ image | image_url: width: 3840 | image_tag:
+        loading: lazy_load,
+        height: height,
+        sizes: "100vw",
+        widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+        class: 'image-load-desktop'
+      }}
+      {%- if image_mobile != blank -%}
+        {{ image_mobile | image_url: width: 1500 | image_tag:
+          loading: lazy_load,
+          height: height,
+          sizes: "100vw",
+          widths: '375, 550, 750, 1100, 1500',
+          class: 'image-load-mobile'
+        }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </div>
+  <div class="banner__box banner__box--{{ box_align }}">
+    <div class="banner__content text-{{ text_color }} banner__content--mobile-text-{{ text_align_mobile }} banner__content--desktop-text-{{ text_align_desktop }}">
+      {%- if heading != blank -%}
+        <h2 class="banner__heading h0">{{ heading | escape }}</h2>
+      {%- endif -%}
+      {%- if subheading != blank -%}
+        <div class="banner__text h3">
+          <span>{{ subheading | escape }}</span>
+        </div>
+      {%- endif -%}
+      {%- if button_label != blank -%}
+        <a{% if link %} href="{{ link }}"{% else %} role="link" aria-disabled="true"{% endif %} class="button--link link">{{ button_label | escape }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

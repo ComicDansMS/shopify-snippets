@@ -1,0 +1,109 @@
+.banner-item {
+  position: relative;
+  width: 100%;
+}
+
+.banner-item--mobile-regular {
+  height: 75vh;
+  padding-bottom: 0;
+}
+
+.banner-item--mobile-screen {
+  height: 100vh;
+  padding-bottom: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .banner-item--desktop-regular {
+    padding-bottom: 42%;
+  }
+  
+  .banner-item--desktop-screen {
+    height: 100vh;
+  }
+}
+
+.banner__media {
+  position: absolute;
+  z-index: -2;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+}
+
+.banner__media::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.banner__box {
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 2rem;
+}
+
+.banner__box--left {
+  justify-content: left;
+}
+
+.banner__box--center {
+  justify-content: center;
+}
+
+.banner__box--right {
+  justify-content: right;
+}
+
+.banner__content {
+  max-width: 44rem;
+}
+
+.banner__content--mobile-text-left {
+  text-align: left;
+}
+
+.banner__content--mobile-text-center {
+  text-align: center;
+}
+
+.banner__content--mobile-text-right {
+  text-align: right;
+}
+
+@media screen and (min-width: 750px) {
+  .banner__box {
+     padding: 5rem 10%;
+   }
+
+   .banner__content--desktop-text-left {
+    text-align: left;
+  }
+  
+  .banner__content--desktop-text-center {
+    text-align: center;
+  }
+  
+  .banner__content--desktop-text-right {
+    text-align: right;
+  }
+}
+
+.banner__heading {
+  margin: 0;
+}
+
+.banner__content .button--link {
+  margin-top: 1.5rem;
+}
