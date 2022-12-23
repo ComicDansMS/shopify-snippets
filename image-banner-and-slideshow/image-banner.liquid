@@ -1,7 +1,7 @@
-{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
+{{ 'component-image-banner-item.css' | asset_url | stylesheet_tag }}
 
-<div {% if section.settings.layout == 'grid' %}class="page-width{% endif %}">
-  {% 
+<div class="{% if section.settings.layout == 'grid' %}page-width{% endif %}{% if section.settings.spacing_bottom %} section-space-bottom{% endif %}{% if section.settings.spacing_top %} section-space-top{% endif %}">
+  {%- 
     render 'banner-item' 
     section_id: section.id,
     image: section.settings.image,
@@ -19,7 +19,7 @@
     overlay_opacity: section.settings.image_overlay_opacity,
     overlay_colour: section.settings.image_overlay_color,
     overlay_mobile_only: section.settings.overlay_mobile_only,
-  %}
+  -%}
 </div>
 
 {% schema %}
@@ -224,6 +224,22 @@
       ],
       "default": "center",
       "label": "Mobile text alignment"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "checkbox",
+      "id": "spacing_top",
+      "label": "Top",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "spacing_bottom",
+      "label": "Bottom",
+      "default": false
     }
   ],
   "blocks": [

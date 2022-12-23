@@ -1,0 +1,38 @@
+{% comment %}
+  Renders slideshow controls.
+
+  Accepts:
+  - section_id: {String} The ID of the section rendering the slideshow
+  - blocks: {Object} the section blocks of the slideshow
+
+  Usage:
+  {% render 'slideshow-controls',
+    section_id: section.id,
+    blocks: section.blocks,
+  %}
+{% endcomment %}
+
+<div class="slideshow__controls slider-buttons no-js-hidden">
+  <button type="button" class="visually-hidden" name="previous" aria-label="{{ 'sections.slideshow.previous_slideshow' | t }}" aria-controls="Slider-{{ section_id }}">Previous</button>
+  <div class="slider-counter slider-counter--dots">
+      <div class="slideshow__control-wrapper">
+        {%- for block in blocks -%}
+          <button class="slider-counter__link slider-counter__link--dots link" aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}" aria-controls="Slider-{{ section_id }}">
+            <span class="dot"></span>
+          </button>
+        {%- endfor -%}
+      </div>
+  </div>
+  <button type="button" class="visually-hidden" name="next" aria-label="{{ 'sections.slideshow.next_slideshow' | t }}" aria-controls="Slider-{{ section_id }}">Next</button>
+</div>
+<noscript>
+  <div class="slider-buttons">
+    <div class="slider-counter">
+      {%- for block in blocks -%}
+        <a href="#Slide-{{ section_id }}-{{ forloop.index }}" class="slider-counter__link link" aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}">
+          {{ forloop.index }}
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</noscript>

@@ -1,0 +1,26 @@
+slideshow-component {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+slideshow-component .testimonial {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin: 0;
+  gap: 0;
+}
+
+.testimonial .testimonial__slide {
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  padding-top: 2.5rem;
+  padding-bottom: 3.5rem;
+}
+
+@media screen and (min-width: 749px) {
+  .testimonial .testimonial__slide {
+    padding-top: 7.5rem;
+    padding-bottom: 7.5rem;
+  } 
+}
