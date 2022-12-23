@@ -10,7 +10,7 @@
     data-speed="{{ section.settings.change_slides_speed }}"
   >
     {%- for block in section.blocks -%}
-      <div class="slideshow__slide testimonial__slide grid__item grid--1-col slider__slide color-sand"
+      <div class="slideshow__slide testimonial__slide grid__item grid--1-col slider__slide color-{{ section.settings.color_scheme }}"
         id="Slide-{{ section.id }}-{{ forloop.index }}"
         {{ block.shopify_attributes }}
         role="group"
@@ -20,7 +20,7 @@
       >
         <div class="page-width page-width--narrow center">
           <p>
-            {{ block.settings.testimonial }}
+            {{ block.settings.content }}
           </p>
           <p>
             <strong>
@@ -46,10 +46,30 @@
 
 {% schema %}
 {
-  "name": "t:sections.slideshow.name",
+  "name": "Testimonial slider",
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        },
+        {
+          "value": "background-3",
+          "label": "Background 3"
+        }
+      ],
+      "default": "background-1",
+      "label": "Color scheme"
+    },
     {
       "type": "checkbox",
       "id": "auto_rotate",
@@ -96,14 +116,13 @@
   ],
   "blocks": [
     {
-      "type": "slide",
-      "name": "t:sections.slideshow.blocks.slide.name",
-      "limit": 5,
+      "type": "testimonial",
+      "name": "Testimonial",
       "settings": [
         {
           "type": "textarea",
-          "id": "testimonial",
-          "label": "Testimonial"
+          "id": "content",
+          "label": "Content"
         },
         {
           "type": "text",
@@ -115,7 +134,7 @@
   ],
   "presets": [
     {
-      "name": "Testimonial"
+      "name": "Testimonial slider"
     }
   ]
 }
