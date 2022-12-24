@@ -3,7 +3,7 @@
 {{ 'component-slideshow.css' | asset_url | stylesheet_tag }}
 
 <slideshow-component class="slider-mobile-gutter{% if section.settings.width == 'contained' %} page-width{% endif %} {% if section.settings.spacing_bottom %} section-space-bottom{% endif %}{% if section.settings.spacing_top %} section-space-top{% endif %}" role="region" aria-roledescription="{{ 'sections.slideshow.carousel' | t }}" aria-label="{{ section.settings.accessibility_info | escape }}">
-  <div class="slideshow banner grid grid--1-col slider slider--everywhere{% if section.blocks.first.settings.image == blank %} slideshow--placeholder{% endif %}"
+  <ul class="slideshow banner grid grid--1-col slider slider--everywhere list-unstyled{% if section.blocks.first.settings.image == blank %} slideshow--placeholder{% endif %}"
     id="Slider-{{ section.id }}"
     aria-live="polite"
     aria-atomic="true"
@@ -11,7 +11,7 @@
     data-speed="{{ section.settings.change_slides_speed }}"
   >
     {%- for block in section.blocks -%}      
-      <div class="slideshow__slide grid__item grid--1-col slider__slide"
+      <li class="slideshow__slide grid__item grid--1-col slider__slide"
         id="Slide-{{ section.id }}-{{ forloop.index }}"
         {{ block.shopify_attributes }}
         role="group"
@@ -40,7 +40,7 @@
           overlay_colour: block.settings.image_overlay_color,
           overlay_mobile_only: block.settings.overlay_mobile_only,
         -%}
-      </div>
+      </li>
     {%- endfor -%}
   </div>
 
